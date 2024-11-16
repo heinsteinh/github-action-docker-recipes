@@ -14,10 +14,19 @@ jobs:
 
       - name: Run my own container action
         uses: ./ # Uses an action in the root directory
-        id: hello
+        id: my-action
         with:
           who-to-greet: '@wheezy'
-          
+
         # Use the output from the `hello` step
       - name: Get the output time
-        run: echo "The time was ${{ steps.hello.outputs.time }}"
+        run: echo "The time was ${{ steps.my-action.outputs.time }}"
+
+      - name: Output the answer
+        run: echo "The answer is ${{ steps.my-action.outputs.answer}}"
+
+      - name: Test the container
+        if: ${{ steps.my-action.outputs.answer != 42 }}
+        run: |
+            echo "::error file=entrypoint.sh,line=4,title=Error in container::The answer was not expected"
+            exit 1
