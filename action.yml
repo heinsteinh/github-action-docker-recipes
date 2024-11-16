@@ -1,7 +1,7 @@
 name: 'Docker Action Recipe'
-description: 'Greet someone'
+description: 'Greet someone and record the time'
 inputs:
-  who-to-greet:
+  who-to-greet: # id of input
     description: 'Who to greet'
     required: true
     default: 'World'
