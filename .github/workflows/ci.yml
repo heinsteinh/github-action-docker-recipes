@@ -25,6 +25,14 @@ jobs:
       - name: Output the answer
         run: echo "The answer is ${{ steps.my-action.outputs.answer}}"
 
+      - name: Set the value
+        id: step_one
+        run: |
+          echo "action_state=yellow" >> "$GITHUB_ENV"
+
+      - run: |
+          echo "${{ env.action_state }}" # This will output 'yellow'
+
       - name: Test the container
         if: ${{ steps.my-action.outputs.answer != 42 }}
         run: |
