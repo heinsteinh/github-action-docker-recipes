@@ -29,9 +29,23 @@ jobs:
         id: step_one
         run: |
           echo "action_state=yellow" >> "$GITHUB_ENV"
-
       - run: |
           echo "${{ env.action_state }}" # This will output 'yellow'
+
+      - name: Store build timestamp
+        run: echo "BUILD_TIME=$(date +'%T')" >> $GITHUB_ENV
+
+      - name: Deploy using stored timestamp
+        run: echo "Deploying at $BUILD_TIME"
+
+      - name: Set the value in bash
+        id: step_three
+        run: |
+          {
+            echo 'JSON_RESPONSE<<EOF'
+            curl https://example.com
+            echo EOF
+          } >> "$GITHUB_ENV"
 
       - name: Test the container
         if: ${{ steps.my-action.outputs.answer != 42 }}
